@@ -39,11 +39,14 @@ describe('Parsing HAL', function () {
     expect(unparsed._links.self).to.not.be.an('array')
     expect(unparsed._links.self).to.be.an('object')
     expect(unparsed._links.self.href).to.exist
+    expect(unparsed._links.self.templated).to.not.exist
     expect(unparsed._embedded).to.not.exist
     expect(unparsed._validation).to.not.exist
 
     expect(resource._links.self).to.be.an('array')
     expect(resource._links.self).to.not.be.an('object')
+    expect(resource._links.self[0].templated).to.exist
+    expect(resource._links.self[0].templated).to.be.false
     expect(resource._embedded).to.exist
     expect(resource._embedded).to.be.an('object')
     expect(resource._validation).to.exist
@@ -113,17 +116,22 @@ describe('Parsing HAL', function () {
 
     expect(unparsed._links.self).to.not.be.an('array')
     expect(unparsed._links.self).to.be.an('object')
+    expect(unparsed._links.self.templated).to.not.exist
     expect(unparsed._links.next).to.not.be.an('array')
     expect(unparsed._links.next).to.be.an('object')
+    expect(unparsed._links.next.templated).to.not.exist
     expect(unparsed._links.admin).to.be.an('array')
+    expect(unparsed._links.find.templated).to.be.true
     expect(unparsed.currentlyProcessing).to.equal(14)
     expect(unparsed._embedded).to.exist
     expect(unparsed._validation).to.not.exist
 
     expect(unparsed._embedded.orders[0]._links.self).to.not.be.an('array')
     expect(unparsed._embedded.orders[0]._links.self).to.be.an('object')
+    expect(unparsed._embedded.orders[0]._links.self.templated).to.not.exist
     expect(unparsed._embedded.orders[1]._links.basket).to.not.be.an('array')
     expect(unparsed._embedded.orders[1]._links.basket).to.be.an('object')
+    expect(unparsed._embedded.orders[1]._links.basket.templated).to.not.exist
     expect(unparsed._embedded.orders[0]._embedded).to.not.exist
     expect(unparsed._embedded.orders[0]._validation).to.not.exist
     expect(unparsed._embedded.orders[1]._embedded).to.not.exist
