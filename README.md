@@ -3,9 +3,9 @@ Halfred
 
 [![Build Status](https://travis-ci.org/basti1302/halfred.png?branch=master)](https://travis-ci.org/basti1302/halfred)
 
-[![browser support](http://ci.testling.com/basti1302/traverson.png)](http://ci.testling.com/basti1302/traverson)
+[![browser support](http://ci.testling.com/basti1302/halfred.png)](http://ci.testling.com/basti1302/halfred)
 
-[![NPM](https://nodei.co/npm/traverson.png?downloads=true&stars=true)](https://nodei.co/npm/traverson/)
+[![NPM](https://nodei.co/npm/halfred.png?downloads=true&stars=true)](https://nodei.co/npm/halfred/)
 
 A "parser" for the JSON-flavour of HAL, the Hypertext Application Language (that is `application/hal+json`). If you feed it an object that has `_links` and `_embedded` properties, as desribed in the HAL spec, it will make all links and embedded resource available via convenient methods. If requested, Halfred can also validate a HAL object.
 
