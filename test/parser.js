@@ -32,6 +32,21 @@ describe('Parsing HAL', function () {
     expect(resource.link('self').href).to.equal('dummy')
   })
 
+  it('should not modify the original object', function () {
+    var unparsed = fixtures.minimal.get()
+    expect(unparsed._links.self.href).to.exist
+    expect(unparsed._links.self).to.be.an('object')
+    expect(unparsed._links.self).to.not.be.an('array')
+    var resource = halfred.parse(unparsed)
+
+    expect(unparsed._links.self).to.not.be.an('array')
+    expect(unparsed._links.self).to.be.an('object')
+    expect(unparsed._links.self.href).to.exist
+
+    expect(resource._links.self).to.be.an('array')
+    expect(resource._links.self).to.not.be.an('object')
+  })
+
   it('should parse the standard HAL example', function () {
     var unparsed = fixtures.shop.get()
     var resource = halfred.parse(unparsed)
