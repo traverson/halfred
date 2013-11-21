@@ -32,19 +32,22 @@ describe('Parsing HAL', function () {
     expect(resource.link('self').href).to.equal('dummy')
   })
 
-  it('should not modify the original object', function () {
+  it('should not modify the source object', function () {
     var unparsed = fixtures.minimal.get()
-    expect(unparsed._links.self.href).to.exist
-    expect(unparsed._links.self).to.be.an('object')
-    expect(unparsed._links.self).to.not.be.an('array')
     var resource = halfred.parse(unparsed)
 
     expect(unparsed._links.self).to.not.be.an('array')
     expect(unparsed._links.self).to.be.an('object')
     expect(unparsed._links.self.href).to.exist
+    expect(unparsed._embedded).to.not.exist
+    expect(unparsed._validation).to.not.exist
 
     expect(resource._links.self).to.be.an('array')
     expect(resource._links.self).to.not.be.an('object')
+    expect(resource._embedded).to.exist
+    expect(resource._embedded).to.be.an('object')
+    expect(resource._validation).to.exist
+    expect(resource._validation).to.be.an('array')
   })
 
   it('should parse the standard HAL example', function () {
@@ -101,6 +104,42 @@ describe('Parsing HAL', function () {
     expect(order2.total).to.equal(20)
     expect(order2.currency).to.equal('USD')
     expect(order2.status).to.equal('processing')
+  })
+
+  it('should not modify the embedded resources in the source object',
+      function () {
+    var unparsed = fixtures.shop.get()
+    var resource = halfred.parse(unparsed)
+
+    expect(unparsed._links.self).to.not.be.an('array')
+    expect(unparsed._links.self).to.be.an('object')
+    expect(unparsed._links.next).to.not.be.an('array')
+    expect(unparsed._links.next).to.be.an('object')
+    expect(unparsed._links.admin).to.be.an('array')
+    expect(unparsed.currentlyProcessing).to.equal(14)
+    expect(unparsed._embedded).to.exist
+    expect(unparsed._validation).to.not.exist
+
+    expect(unparsed._embedded.orders[0]._links.self).to.not.be.an('array')
+    expect(unparsed._embedded.orders[0]._links.self).to.be.an('object')
+    expect(unparsed._embedded.orders[1]._links.basket).to.not.be.an('array')
+    expect(unparsed._embedded.orders[1]._links.basket).to.be.an('object')
+    expect(unparsed._embedded.orders[0]._embedded).to.not.exist
+    expect(unparsed._embedded.orders[0]._validation).to.not.exist
+    expect(unparsed._embedded.orders[1]._embedded).to.not.exist
+    expect(unparsed._embedded.orders[1]._validation).to.not.exist
+
+    expect(resource._links.self).to.be.an('array')
+    expect(resource._links.next).to.be.an('array')
+    expect(resource._validation).to.exist
+    expect(resource._validation).to.be.an('array')
+
+    expect(resource._embedded.orders[0]._links.self).to.be.an('array')
+    expect(resource._embedded.orders[1]._links.basket).to.be.an('array')
+    expect(resource._embedded.orders[0]._embedded).to.be.an('object')
+    expect(resource._embedded.orders[0]._validation).to.be.an('array')
+    expect(resource._embedded.orders[1]._embedded).to.be.an('object')
+    expect(resource._embedded.orders[1]._validation).to.be.an('array')
   })
 
   it('should parse a resource without links', function () {

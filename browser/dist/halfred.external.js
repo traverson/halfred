@@ -88,23 +88,27 @@ function _parse(unparsed, validation, path) {
   if (unparsed == null) {
     return unparsed
   }
-  var links = processLinks(unparsed._links, validation, path.push('_links'))
-  var embedded = processEmbeddedResources(unparsed._embedded, validation,
+  var links = parseLinks(unparsed._links, validation, path.push('_links'))
+  var embedded = parseEmbeddedResourcess(unparsed._embedded, validation,
       path.push('_embedded'))
-  return new Resource(unparsed, links, embedded, validation)
+  var resource = new Resource(links, embedded, validation)
+  copyNonHalProperties(unparsed, resource)
+  return resource
 }
 
-function processLinks(links, validation, path) {
-  links = processHalProperty(links, parseLink, validation, path)
+function parseLinks(links, validation, path) {
+  links = parseHalProperty(links, parseLink, validation, path)
   if (links == null || links.self == null) {
+    // No links at all? Then it implictly misses the self link which it SHOULD
+    // have according to spec
     reportValidationIssue('Resource does not have a self link', validation,
         path)
   }
   return links
 }
 
-function processEmbeddedResources(embedded, parentValidation, path) {
-  embedded = processHalProperty(embedded, identity, parentValidation, path)
+function parseEmbeddedResourcess(embedded, parentValidation, path) {
+  embedded = parseHalProperty(embedded, identity, parentValidation, path)
   if (embedded == null) {
     return embedded
   }
@@ -118,20 +122,34 @@ function processEmbeddedResources(embedded, parentValidation, path) {
 }
 
 /*
+ * Copy over non-hal properties (everything that is not _links or _embedded)
+ * to the parsed resource.
+ */
+function copyNonHalProperties(unparsed, resource) {
+  Object.keys(unparsed).forEach(function(key) {
+    if (key !== '_links' && key !== '_embedded') {
+      resource[key] = unparsed[key]
+    }
+  })
+}
+
+/*
  * Processes one of the two main hal properties, that is _links or _embedded.
  * Each sub-property is turned into a single element array if it isn't already
  * an array. processingFunction is applied to each array element.
  */
-function processHalProperty(property, processingFunction, validation, path) {
+function parseHalProperty(property, processingFunction, validation, path) {
   if (property == null) {
     return property
   }
 
+  var copy = {}
+
   Object.keys(property).forEach(function(key) {
-    property[key] = arrayfy(key, property[key], processingFunction, validation,
-      path)
+    copy[key] = arrayfy(key, property[key], processingFunction,
+      validation, path)
   })
-  return property
+  return copy
 }
 
 function arrayfy(key, object, fn, validation, path) {
@@ -216,19 +234,12 @@ module.exports = Parser
 },{"./immutable_stack":3,"./resource":5}],5:[function(require,module,exports){
 'use strict';
 
-function Resource(resource, links, embedded, validationIssues) {
+function Resource(links, embedded, validationIssues) {
   var self = this
   this._links = links || {}
   this._embedded = embedded || {}
   this._validation = validationIssues || []
 
-  // copy over non-hal properties (everything that is not _links or _embedded)
-  // to the parsed resource
-  Object.keys(resource).forEach(function(key) {
-    if (key !== '_links' && key !== '_embedded') {
-      self[key] = resource[key]
-    }
-  })
 }
 
 Resource.prototype.allLinkArrays = function() {
