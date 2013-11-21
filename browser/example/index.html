@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Halfred in the Browser</title>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap.min.css">
+    <script src="assets/jquery-2.0.2.min.js"></script>
+    <script src="../dist/halfred.min.js"></script>
+    <script src="halfred-examples.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Halfred in the Browser</h1>
+        <p>Halfred parses HAL, the hypertext application language. It works in
+        Node.js as well as in the browser.</p>
+        <p><a id="btn-all"
+              class="btn btn-primary btn-lg"
+              role="button">Parse Examples All At Once</a></p>
+      </div>
+
+      <h2>Minimal Example</h2>
+      <div class="row">
+        <div id="minimal-source" class="col-md-4"><img src="assets/spinner.gif"/></div>
+        <div class="col-md-2">
+          <a id="btn-minimal" class="btn btn-primary" role="button">Parse</a>
+        </div>
+        <pre id="minimal-result" class="col-md-6"></pre>
+      </div>
+      <hr>
+
+      <h2>Another Example</h3>
+      <div class="row">
+        <div id="another-source" class="col-md-4"><img src="assets/spinner.gif"/></div>
+        <div class="col-md-2">
+          <a id="btn-another" class="btn btn-primary" role="button">Start Request</a>
+        </div>
+        <pre id="another-result" class="col-md-6"></pre>
+      </div>
+    </div>
+  </body>
+</html>
