@@ -7,7 +7,11 @@ Halfred
 
 [![NPM](https://nodei.co/npm/traverson.png?downloads=true&stars=true)](https://nodei.co/npm/traverson/)
 
-A "parser" for the JSON-flavor of HAL, the Hypertext Application Language (that is `application/hal+json`). If you feed it an object that has `_links` and `_embedded` properties, as desribed in the HAL spec, it will normalize it a bit and make all links and embedded resource available via methods. If requested, Halfred can also validate a HAL object.
+A "parser" for the JSON-flavour of HAL, the Hypertext Application Language (that is `application/hal+json`). If you feed it an object that has `_links` and `_embedded` properties, as desribed in the HAL spec, it will make all links and embedded resource available via convenient methods. If requested, Halfred can also validate a HAL object.
+
+For more information on HAL, see
+* [the formal spec](http://tools.ietf.org/html/draft-kelly-json-hal)
+* [a less formal introduction](http://stateless.co/hal_specification.html)
 
 This module works in Node.js and in the browser. It has no dependencies, the size of the browser build is 8 KB / 4 KB (non-minified/minified)
 
@@ -35,8 +39,6 @@ Download and use one of the following:
     var halfred = require('halfred');
     var resource = halfred.parse(object);
 
-Note that `parse` might alter the object - it normalizes the `_links`.
-
 #### Resource API
 
 `halfred.parse(object)` returns a resource object. Here's what you can do with it:
@@ -45,15 +47,19 @@ Note that `parse` might alter the object - it normalizes the `_links`.
 * `allLinks()`: Alias for `allLinkArrays`
 * `linkArray(key)`: Returns the array of links for the given `key`, or `null` if there are no links for this `key`.
 * `link(key)`: Returns the first element of the array of links for the given `key` or `null` if there are no links for this `key`.
-* `allEmbeddedResourceArrays()`: Returns an object which has an array for each embedded resource that was present in the source object. See below why each embedded resource is represented as an array.
+* `allEmbeddedResourceArrays()`: Returns an object which has an array for each embedded resource that was present in the source object. See below why each embedded resource is represented as an array. Each element of any of this arrays is in turn a `Resource` object.
 * `allEmbeddedArrays()`: Alias for `allEmbeddedResourceArrays()`
 * `allEmbeddedResources()`: Alias for `allEmbeddedResourceArrays()`
-* `embeddedResourceArray(key)`:  Returns the array of embedded resources for the given `key`, or `null` if there are no embedded resources for this `key`.
+* `embeddedResourceArray(key)`:  Returns the array of embedded resources for the given `key`, or `null` if there are no embedded resources for this `key`. Each element of this arrays is in turn a `Resource` object.
 * `embeddedArray(key)`: Alias for `embeddedResourceArray()`.
-* `embeddedResource(key)`: Returns the first element of the array of embedded resources for the given `key` or `null` if there are no embedded resources for this `key`.
+* `embeddedResource(key)`: Returns the first element of the array of embedded resources for the given `key` or `null` if there are no embedded resources for this `key`. The returend object is a `Resource` object.
 * `embedded(key)`: Alias for `embeddedResource(key)`
-* `validationIssues()`: Returns all validation issues.
+* `validationIssues()`: Returns all validation issues. Validation issues are only gathered if validation has been turned on by calling `halfred.enableValidation()` before calling `halfred.parse`.
 * `validation()`: Alias for `validationIssues()`
+
+In addition to the methods mentioned here, `resource` has all properties of the source object. This is also true for embedded resource objects. The non-HAL properties (that is, any property except `_links` and `_embedded`) are copied over to the Resource object. This is always a shallow copy, so modifying the a non-HAL property in the Resource object might also alter the source object and vice versa. 
+
+The Resource object also has the properties `_links` and `_embedded` but they might differ from the `_links`/`_embedded` properties in the source object (Halfred applies some normalization to them). These are not intended to be accessed by clients directly, instead, use the provided methods to work with links and embedded resources.
 
 #### Links And Embedded Resources
 
@@ -61,11 +67,13 @@ The resource methods `allLinkArrays()` and `linkArray(key)` an array for each li
 
 The same is true for embedded resources.
 
-Once you have the link object, you can access the properties `href`, `templated` and so on (refer to the spec for details) on it. The `templated` property defaults to false, if it wasn't set in the object given to `parse`, all other properties described in the spec default to `null`.
+Once you have the link object, you can access the properties `href`, `templated` and so on (refer to the [spec](http://tools.ietf.org/html/draft-kelly-json-hal) for details) on it. The `templated` property defaults to false, if it wasn't set in the object given to `parse`, all other properties described in the spec default to `null`.
 
 #### Enable/Disable Validation
 
-In some situations, it might be desirable to validate the resource you want to parse and check, if it is valid according to the HAL spec. However, in most situations you might not want to do this but just get the links and the embedded resources. If you are the client of a HAL API and want to adhere to [Postel's law](http://en.wikipedia.org/wiki/Robustness_principle) (especially the _"be liberal in what you accept"_ part), it is rather the latter than the former. Therefore, by default, Halfred does not enforce strict validation checks. If you want to have validation checks you can enable them by calling `halfred.enableValidation()`. You can disable them again by calling, guess what, `halfred.disableValidation()`.
+In some situations, it might be desirable to validate the resource you want to parse and check, if it is valid according to the HAL spec. By default, Halfred does not do validation checks. If you want to have validation checks you can enable them by calling `halfred.enableValidation()`. Then after parsing a source object, call `validationIssues()` on the resource object returned by `parse` to get an array of all validation issues.
+
+ You can disable validation checks again by calling `halfred.disableValidation()`.You can also call `halfred.enableValidation(true)` or `halfred.enableValidation(false)` to enable/disable validation.
 
 License
 -------
