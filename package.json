@@ -1,6 +1,6 @@
 {
   "name": "halfred",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "parses JSON HAL resources (Hypertext Application Language)",
   "main": "halfred.js",
   "repository": "git://github.com/basti1302/halfred.git",
