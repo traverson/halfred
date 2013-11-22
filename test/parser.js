@@ -168,6 +168,13 @@ describe('Parsing HAL', function () {
        .to.deep.equal(unparsed._embedded.orders[1])
   })
 
+  it('should store the parent resource', function () {
+    var unparsed = fixtures.shop.get()
+    var resource = halfred.parse(unparsed)
+    expect(resource.embedded('orders', 1).parent())
+       .to.deep.equal(resource)
+  })
+
   it('should parse a resource without links', function () {
     var unparsed = fixtures.noLinks.get()
     var resource = halfred.parse(unparsed)
