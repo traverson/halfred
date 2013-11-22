@@ -23,6 +23,12 @@ module.exports=require('7fyf1i');
 },{}],3:[function(require,module,exports){
 'use strict';
 
+/*
+ * A very naive copy-on-write immutable stack. Since the size of the stack
+ * is equal to the depth of the embedded resources for one HAL resource, the bad
+ * performance for the copy-on-write approach is probably not a problem at all.
+ * Might be replaced by a smarter solution later. Or not. Whatever.
+ */
 function ImmutableStack() {
   if (arguments.length >= 1) {
     this._array = arguments[0]
@@ -88,11 +94,13 @@ function _parse(unparsed, validation, path) {
   if (unparsed == null) {
     return unparsed
   }
-  var links = parseLinks(unparsed._links, validation, path.push('_links'))
-  var embedded = parseEmbeddedResourcess(unparsed._embedded, validation,
-      path.push('_embedded'))
-  var resource = new Resource(links, embedded, validation)
+  var allLinkArrays = parseLinks(unparsed._links, validation,
+      path.push('_links'))
+  var allEmbeddedArrays = parseEmbeddedResourcess(unparsed._embedded,
+      validation, path.push('_embedded'))
+  var resource = new Resource(allLinkArrays, allEmbeddedArrays, validation)
   copyNonHalProperties(unparsed, resource)
+  resource._original = unparsed
   return resource
 }
 
@@ -107,15 +115,18 @@ function parseLinks(links, validation, path) {
   return links
 }
 
-function parseEmbeddedResourcess(embedded, parentValidation, path) {
-  embedded = parseHalProperty(embedded, identity, parentValidation, path)
+function parseEmbeddedResourcess(original, parentValidation, path) {
+  var embedded = parseHalProperty(original, identity, parentValidation, path)
   if (embedded == null) {
     return embedded
   }
   Object.keys(embedded).forEach(function(key) {
     embedded[key] = embedded[key].map(function(embeddedElement) {
       var childValidation = parentValidation != null ? [] : null
-      return _parse(embeddedElement, childValidation, path.push(key))
+      var embeddedResource = _parse(embeddedElement, childValidation,
+          path.push(key))
+      embeddedResource._original = embeddedElement
+      return embeddedResource
     })
   })
   return embedded
@@ -264,8 +275,8 @@ Resource.prototype.linkArray = function(key) {
   return propertyArray(this._links, key)
 }
 
-Resource.prototype.link = function(key) {
-  return firstElementOfProperty(this._links, key)
+Resource.prototype.link = function(key, index) {
+  return elementOfPropertyArray(this._links, key, index)
 }
 
 Resource.prototype.allEmbeddedResourceArrays = function () {
@@ -276,18 +287,23 @@ Resource.prototype.embeddedResourceArray = function(key) {
   return propertyArray(this._embedded, key)
 }
 
-Resource.prototype.embeddedResource = function(key) {
-  return firstElementOfProperty(this._embedded, key)
+Resource.prototype.embeddedResource = function(key, index) {
+  return elementOfPropertyArray(this._embedded, key, index)
+}
+
+Resource.prototype.original = function() {
+  return this._original
 }
 
 function propertyArray(object, key) {
   return object != null ? object[key] : null
 }
 
-function firstElementOfProperty(object, key) {
+function elementOfPropertyArray(object, key, index) {
+  index = index || 0
   var array = propertyArray(object, key)
   if (array != null && array.length >= 1) {
-    return array[0]
+    return array[index]
   }
   return null
 }

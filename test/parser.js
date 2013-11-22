@@ -158,11 +158,14 @@ describe('Parsing HAL', function () {
     expect(resource._embedded.orders[1]._validation).to.be.an('array')
   })
 
-  it.skip('should store the source object for the embedded resources', function () {
+  it('should store the original source object in the resource',
+      function () {
     var unparsed = fixtures.shop.get()
     var resource = halfred.parse(unparsed)
-
-
+    expect(resource.original())
+       .to.deep.equal(unparsed)
+    expect(resource.embedded('orders', 1).original())
+       .to.deep.equal(unparsed._embedded.orders[1])
   })
 
   it('should parse a resource without links', function () {
