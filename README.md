@@ -57,7 +57,7 @@ Download and use one of the following:
 * `validationIssues()`: Returns all validation issues. Validation issues are only gathered if validation has been turned on by calling `halfred.enableValidation()` before calling `halfred.parse`.
 * `validation()`: Alias for `validationIssues()`
 
-In addition to the methods mentioned here, `resource` has all properties of the source object. This is also true for embedded resource objects. The non-HAL properties (that is, any property except `_links` and `_embedded`) are copied over to the Resource object. This is always a shallow copy, so modifying the a non-HAL property in the Resource object might also alter the source object and vice versa. 
+In addition to the methods mentioned here, `resource` has all properties of the source object. This is also true for embedded resource objects. The non-HAL properties (that is, any property except `_links` and `_embedded`) are copied over to the Resource object. This is always a shallow copy, so modifying the a non-HAL property in the Resource object might also alter the source object and vice versa.
 
 The Resource object also has the properties `_links` and `_embedded` but they might differ from the `_links`/`_embedded` properties in the source object (Halfred applies some normalization to them). These are not intended to be accessed by clients directly, instead, use the provided methods to work with links and embedded resources.
 
@@ -74,6 +74,13 @@ Once you have the link object, you can access the properties `href`, `templated`
 In some situations, it might be desirable to validate the resource you want to parse and check, if it is valid according to the HAL spec. By default, Halfred does not do validation checks. If you want to have validation checks you can enable them by calling `halfred.enableValidation()`. Then after parsing a source object, call `validationIssues()` on the resource object returned by `parse` to get an array of all validation issues.
 
  You can disable validation checks again by calling `halfred.disableValidation()`.You can also call `halfred.enableValidation(true)` or `halfred.enableValidation(false)` to enable/disable validation.
+
+Release Notes
+-------------
+
+* 0.2.0 2013-11-22: Make source object of embedded resource available
+* 0.1.1 2013-11-21: Leave source object untouched while parsing
+* 0.1.0 2013-11-21: Initial release
 
 License
 -------
