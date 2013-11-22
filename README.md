@@ -79,7 +79,7 @@ In some situations, it might be desirable to validate the resource you want to p
 Release Notes
 -------------
 
-* 0.2.0 2013-11-22: Make source object of embedded resource available
+* 0.2.0 2013-11-22: Make the source object of a parsed resource available (useful for embedded resources)
 * 0.1.1 2013-11-21: Leave source object untouched while parsing
 * 0.1.0 2013-11-21: Initial release
 
