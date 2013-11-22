@@ -53,7 +53,7 @@ describe('Parsing HAL', function () {
     expect(resource._validation).to.be.an('array')
   })
 
-  it('should parse the standard HAL example', function () {
+  it('should parse the standard HAL example - main links', function () {
     var unparsed = fixtures.shop.get()
     var resource = halfred.parse(unparsed)
 
@@ -63,7 +63,13 @@ describe('Parsing HAL', function () {
     expect(resource.link('next').href).to.equal('/orders?page=2')
     expect(resource.link('find').href).to.equal('/orders{?id}')
     expect(resource.link('find').templated).to.be.true
+  })
 
+  it('should parse the standard HAL example - admin links', function () {
+    var unparsed = fixtures.shop.get()
+    var resource = halfred.parse(unparsed)
+
+    expect(resource.allLinkArrays()).to.exist
     expect(resource.linkArray('admin')).to.exist
     expect(resource.linkArray('admin')).to.be.an('array')
     expect(resource.linkArray('admin').length).to.equal(2)
@@ -77,10 +83,22 @@ describe('Parsing HAL', function () {
     expect(resource.link('admin', 0).title).to.equal('Fred')
     expect(resource.link('admin', 1).href).to.equal('/admins/5')
     expect(resource.link('admin', 1).title).to.equal('Kate')
+  })
 
+  it('should parse the standard HAL example - properties', function () {
+    var unparsed = fixtures.shop.get()
+    var resource = halfred.parse(unparsed)
+
+    expect(resource.allLinkArrays()).to.exist
     expect(resource.currentlyProcessing).to.equal(14)
     expect(resource.shippedToday).to.equal(20)
+  })
 
+  it('should parse the standard HAL example - embedded resources', function () {
+    var unparsed = fixtures.shop.get()
+    var resource = halfred.parse(unparsed)
+
+    expect(resource.allLinkArrays()).to.exist
     expect(resource.allEmbeddedResourceArrays()).to.exist
     expect(resource.allEmbeddedResourceArrays()).to.be.an('object')
     var orders = resource.embeddedResourceArray('orders')
