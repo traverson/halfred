@@ -71,6 +71,12 @@ describe('Parsing HAL', function () {
     expect(resource.linkArray('admin')[0].title).to.equal('Fred')
     expect(resource.linkArray('admin')[1].href).to.equal('/admins/5')
     expect(resource.linkArray('admin')[1].title).to.equal('Kate')
+    expect(resource.link('admin').href).to.equal('/admins/2')
+    expect(resource.link('admin').title).to.equal('Fred')
+    expect(resource.link('admin', 0).href).to.equal('/admins/2')
+    expect(resource.link('admin', 0).title).to.equal('Fred')
+    expect(resource.link('admin', 1).href).to.equal('/admins/5')
+    expect(resource.link('admin', 1).title).to.equal('Kate')
 
     expect(resource.currentlyProcessing).to.equal(14)
     expect(resource.shippedToday).to.equal(20)
@@ -81,8 +87,10 @@ describe('Parsing HAL', function () {
     expect(orders).to.exist
     expect(orders).to.be.an('array')
     expect(orders.length).to.equal(2)
-    var order1 = orders[0]
-    var order2 = orders[1]
+    var order1 = resource.embedded('orders')
+    var order2 = resource.embedded('orders', 1)
+    expect(orders[0]).to.deep.equal(order1)
+    expect(orders[1]).to.deep.equal(order2)
 
     expect(order1.allLinkArrays()).to.exist
     expect(order1.allLinkArrays()).to.be.an('object')
@@ -148,6 +156,13 @@ describe('Parsing HAL', function () {
     expect(resource._embedded.orders[0]._validation).to.be.an('array')
     expect(resource._embedded.orders[1]._embedded).to.be.an('object')
     expect(resource._embedded.orders[1]._validation).to.be.an('array')
+  })
+
+  it.skip('should store the source object for the embedded resources', function () {
+    var unparsed = fixtures.shop.get()
+    var resource = halfred.parse(unparsed)
+
+
   })
 
   it('should parse a resource without links', function () {
