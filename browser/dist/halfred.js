@@ -97,7 +97,6 @@ function _parse(unparsed, validation, path) {
   var allEmbeddedArrays = parseEmbeddedResourcess(unparsed._embedded,
       validation, path.push('_embedded'))
   var resource = new Resource(allLinkArrays, allEmbeddedArrays, validation)
-  linkParentResource(resource, allEmbeddedArrays)
   copyNonHalProperties(unparsed, resource)
   resource._original = unparsed
   return resource
@@ -129,17 +128,6 @@ function parseEmbeddedResourcess(original, parentValidation, path) {
     })
   })
   return embedded
-}
-
-function linkParentResource(resource, allEmbeddedArrays) {
-  if (!allEmbeddedArrays) {
-    return
-  }
-  Object.keys(allEmbeddedArrays).forEach(function(key) {
-    for (var i = 0; i < allEmbeddedArrays[key].length; i++) {
-      allEmbeddedArrays[key][i]._parent = resource
-    }
-  })
 }
 
 /*
@@ -305,10 +293,6 @@ Resource.prototype.original = function() {
   return this._original
 }
 
-Resource.prototype.parent = function() {
-  return this._parent
-}
-
 function propertyArray(object, key) {
   return object != null ? object[key] : null
 }
@@ -321,6 +305,7 @@ function elementOfPropertyArray(object, key, index) {
   }
   return null
 }
+
 
 Resource.prototype.validationIssues = function() {
   return this._validation

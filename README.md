@@ -55,7 +55,6 @@ Download and use one of the following:
 * `embeddedResource(key)`: Returns the first element of the array of embedded resources for the given `key` or `null` if there are no embedded resources for this `key`. The returend object is a `Resource` object.
 * `embedded(key)`: Alias for `embeddedResource(key)`
 * `original()`: Returns the unmodified, original object that was parsed to this resource. This is rather uninteresting for the source object you give to the `parse` method (because you probably still have a reference to the source object) but it is a convenient way to get the part of the source object that corresponds to an embedded resource.
-* `parent()`: Returns the parent resource (the current resource is an embedded resource) or `null` (if the current resource corresponds to the source object passed to `parse()`.
 * `validationIssues()`: Returns all validation issues. Validation issues are only gathered if validation has been turned on by calling `halfred.enableValidation()` before calling `halfred.parse`.
 * `validation()`: Alias for `validationIssues()`
 
@@ -80,13 +79,9 @@ In some situations, it might be desirable to validate the resource you want to p
 Release Notes
 -------------
 
-* 0.2.0 2013-11-23:
-    * Make the source object of a parsed resource available (useful for embedded resources)
-    * Make the parent resource available
-* 0.1.1 2013-11-21:
-    * Leave source object untouched while parsing
-* 0.1.0 2013-11-21:
-    * Initial release
+* 0.2.0 2013-11-22: Make the source object of a parsed resource available (useful for embedded resources)
+* 0.1.1 2013-11-21: Leave source object untouched while parsing
+* 0.1.0 2013-11-21: Initial release
 
 License
 -------
