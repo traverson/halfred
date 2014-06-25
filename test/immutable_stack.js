@@ -1,59 +1,59 @@
 'use strict';
 
 var Stack = require('../lib/immutable_stack')
-var chai = require('chai')
-var expect = chai.expect
-var assert = chai.assert
+  , chai = require('chai')
+  , expect = chai.expect
+  , assert = chai.assert;
 
 describe('The immutable stack', function () {
 
-  var stack
+  var stack;
 
   beforeEach(function() {
-    stack = new Stack()
-  })
+    stack = new Stack();
+  });
 
   it('is initially empty', function() {
-    expect(stack.array()).to.deep.equal([])
-    expect(stack.isEmpty())
-  })
+    expect(stack.array()).to.deep.equal([]);
+    expect(stack.isEmpty());
+  });
 
   it('can push', function() {
-    stack = stack.push('thing')
-    expect(stack.array()).to.deep.equal(['thing'])
-  })
+    stack = stack.push('thing');
+    expect(stack.array()).to.deep.equal(['thing']);
+  });
 
   it('is immutable on push', function() {
-    var stack2 = stack.push('thing')
-    expect(stack.array()).to.deep.equal([])
-    expect(stack2.array()).to.deep.equal(['thing'])
-  })
+    var stack2 = stack.push('thing');
+    expect(stack.array()).to.deep.equal([]);
+    expect(stack2.array()).to.deep.equal(['thing']);
+  });
 
   it('can\'t peek on empty stack', function() {
     try {
-      stack.peek()
-      assert.fail()
+      stack.peek();
+      assert.fail();
     } catch (e) {
-      expect(e.message).to.equal('can\'t peek on empty stack')
+      expect(e.message).to.equal('can\'t peek on empty stack');
     }
-  })
+  });
 
   it('can peek', function() {
-    stack = stack.push('head')
-    expect(stack.peek()).to.equal('head')
-  })
+    stack = stack.push('head');
+    expect(stack.peek()).to.equal('head');
+  });
 
   it('can pop', function() {
-    stack = stack.push('thing')
-    expect(stack.array()).to.deep.equal(['thing'])
-    stack = stack.pop()
-    expect(stack.array()).to.deep.equal([])
-  })
+    stack = stack.push('thing');
+    expect(stack.array()).to.deep.equal(['thing']);
+    stack = stack.pop();
+    expect(stack.array()).to.deep.equal([]);
+  });
 
   it('is immutable on pop', function() {
-    stack = stack.push('thing')
-    var stack2 = stack.pop()
-    expect(stack.array()).to.deep.equal(['thing'])
-    expect(stack2.array()).to.deep.equal([])
-  })
-})
+    stack = stack.push('thing');
+    var stack2 = stack.pop();
+    expect(stack.array()).to.deep.equal(['thing']);
+    expect(stack2.array()).to.deep.equal([]);
+  });
+});

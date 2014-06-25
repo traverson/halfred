@@ -8,5 +8,5 @@ exports.get = function() {
         what: 'ever'
       }
     }
-  }
-}
+  };
+};

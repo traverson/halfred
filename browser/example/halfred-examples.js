@@ -3,15 +3,15 @@
 (function() {
   'use strict';
 
-  var rootUri = '/'
+  var rootUri = '/';
 
   function parseAll() {
     ['#minimal-result',
      '#another-result'].forEach(function(div) {
-      $(div).html('<img src="assets/spinner.gif"/>')
-    })
-    parseMinimal()
-    parseAnother()
+      $(div).html('<img src="assets/spinner.gif"/>');
+    });
+    parseMinimal();
+    parseAnother();
   }
 
   var minimalSource = {
@@ -21,7 +21,7 @@
       }
     },
     attribute: 'value'
-  }
+  };
 
   var anotherSource = {
     _links: {
@@ -56,22 +56,22 @@
         status: 'processing'
       }]
     }
-  }
+  };
 
   function parseMinimal() {
-    $('#minimal-result').html('<img src="assets/spinner.gif"/>')
-    var resource = halfred.parse(minimalSource)
+    $('#minimal-result').html('<img src="assets/spinner.gif"/>');
+    var resource = halfred.parse(minimalSource);
     $('#minimal-result').html(
         'var resource = halfred.parse(halObject);\n\n' +
         'resource.link(\'self\'):\n' +
         JSON.stringify(resource.link('self'), null, 2) + '\n\n' +
         'resource.attribute: ' + resource.attribute
-    )
+    );
   }
 
   function parseAnother() {
-    $('#another-result').html('<img src="assets/spinner.gif"/>')
-    var resource = halfred.parse(anotherSource)
+    $('#another-result').html('<img src="assets/spinner.gif"/>');
+    var resource = halfred.parse(anotherSource);
     $('#another-result').html(
         'var resource = halfred.parse(halObject);\n\n' +
         'resource.link(\'self\'):\n' +
@@ -104,21 +104,21 @@
         'resource.embeddedResourceArray(\'orders\')[1].total: ' + resource.embeddedResourceArray('orders')[1].total + '\n\n' +
         'resource.embeddedResourceArray(\'orders\')[1].currency: ' + resource.embeddedResourceArray('orders')[1].currency + '\n\n' +
         'resource.embeddedResourceArray(\'orders\')[1].status: ' + resource.embeddedResourceArray('orders')[1].status + '\n\n'
-    )
+    );
   }
 
   $(document).ready(function () {
-    $('#btn-all').on('click', parseAll)
-    $('#btn-minimal').on('click', parseMinimal)
-    $('#btn-another').on('click', parseAnother)
+    $('#btn-all').on('click', parseAll);
+    $('#btn-minimal').on('click', parseMinimal);
+    $('#btn-another').on('click', parseAnother);
 
     $('#minimal-source').html('<pre>\n' +
       JSON.stringify(minimalSource, null, 2) +
-      '\n</pre>')
+      '\n</pre>');
 
     $('#another-source').html('<pre>\n' +
       JSON.stringify(anotherSource, null, 2) +
-      '\n</pre>')
-  })
+      '\n</pre>');
+  });
 })();
 /* jshint +W101 */

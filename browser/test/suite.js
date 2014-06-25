@@ -1,2 +1,2 @@
-require('../../test/parser')
-require('../../test/immutable_stack')
+require('../../test/parser');
+require('../../test/immutable_stack');

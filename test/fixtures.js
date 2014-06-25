@@ -8,4 +8,4 @@ module.exports = {
   noLinks: require('./fixtures/no_links'),
   shop: require('./fixtures/shop'),
   validation: require('./fixtures/validation')
-}
+};

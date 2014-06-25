@@ -6,5 +6,5 @@ exports.get = function() {
       self: { href: '/self' }
     },
     property: 'value'
-  }
-}
+  };
+};

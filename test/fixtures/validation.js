@@ -41,5 +41,5 @@ exports.get = function() {
         }
       }
     }
-  }
-}
+  };
+};

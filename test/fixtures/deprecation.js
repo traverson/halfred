@@ -17,5 +17,5 @@ exports.get = function() {
         }
       }
     }
-  }
-}
+  };
+};

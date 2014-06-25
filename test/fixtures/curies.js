@@ -15,5 +15,5 @@ exports.get = function() {
       'curie1:value': { href: '/link' },
       'curie2:value': { href: '/link' },
     }
-  }
-}
+  };
+};

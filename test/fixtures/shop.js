@@ -34,5 +34,5 @@ exports.get = function() {
         status: 'processing'
       }]
     }
-  }
-}
+  };
+};

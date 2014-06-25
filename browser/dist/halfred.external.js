@@ -1,25 +1,24 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"7fyf1i":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"HfTRU1":[function(require,module,exports){
 var Parser = require('./lib/parser')
-
-var validationFlag = false
+  , validationFlag = false;
 
 module.exports = {
 
   parse: function(unparsed) {
-    return new Parser().parse(unparsed, validationFlag)
+    return new Parser().parse(unparsed, validationFlag);
   },
 
   enableValidation: function(flag) {
-    validationFlag = (flag != null) ? flag : true
+    validationFlag = (flag != null) ? flag : true;
   },
 
   disableValidation: function() {
-    validationFlag = false
+    validationFlag = false;
   }
-}
+};
 
-},{"./lib/parser":4}],"/home/bastian/projekte/halfred/halfred.js":[function(require,module,exports){
-module.exports=require('7fyf1i');
+},{"./lib/parser":4}],"/home/bastian/projekte/hypermedia/halfred/halfred.js":[function(require,module,exports){
+module.exports=require('HfTRU1');
 },{}],3:[function(require,module,exports){
 'use strict';
 
@@ -31,45 +30,45 @@ module.exports=require('7fyf1i');
  */
 function ImmutableStack() {
   if (arguments.length >= 1) {
-    this._array = arguments[0]
+    this._array = arguments[0];
   } else {
-    this._array = []
+    this._array = [];
   }
 }
 
 ImmutableStack.prototype.array = function() {
-  return this._array
-}
+  return this._array;
+};
 
 ImmutableStack.prototype.isEmpty = function(array) {
-  return this._array.length === 0
-}
+  return this._array.length === 0;
+};
 
 ImmutableStack.prototype.push = function(element) {
-  var array = this._array.slice(0)
-  array.push(element)
-  return new ImmutableStack(array)
-}
+  var array = this._array.slice(0);
+  array.push(element);
+  return new ImmutableStack(array);
+};
 
 ImmutableStack.prototype.pop = function() {
-  var array = this._array.slice(0, this._array.length - 1)
-  return new ImmutableStack(array)
-}
+  var array = this._array.slice(0, this._array.length - 1);
+  return new ImmutableStack(array);
+};
 
 ImmutableStack.prototype.peek = function() {
   if (this.isEmpty()) {
-    throw new Error('can\'t peek on empty stack')
+    throw new Error('can\'t peek on empty stack');
   }
-  return this._array[this._array.length - 1]
-}
+  return this._array[this._array.length - 1];
+};
 
-module.exports = ImmutableStack
+module.exports = ImmutableStack;
 
 },{}],4:[function(require,module,exports){
 'use strict';
 
 var Resource = require('./resource')
-var Stack = require('./immutable_stack')
+  , Stack = require('./immutable_stack');
 
 var linkSpec = {
   href: { required: true, defaultValue: null },
@@ -80,56 +79,66 @@ var linkSpec = {
   profile: { required: false, defaultValue: null },
   title: { required: false, defaultValue: null },
   hreflang: { required: false, defaultValue: null }
-}
+};
 
 function Parser() {
 }
 
 Parser.prototype.parse = function parse(unparsed, validationFlag) {
-  var validation = validationFlag ? [] : null
-  return _parse(unparsed, validation, new Stack())
-}
+  var validation = validationFlag ? [] : null;
+  return _parse(unparsed, validation, new Stack());
+};
 
 function _parse(unparsed, validation, path) {
   if (unparsed == null) {
-    return unparsed
+    return unparsed;
   }
   var allLinkArrays = parseLinks(unparsed._links, validation,
-      path.push('_links'))
+      path.push('_links'));
+  var curies = parseCuries(allLinkArrays);
   var allEmbeddedArrays = parseEmbeddedResourcess(unparsed._embedded,
-      validation, path.push('_embedded'))
-  var resource = new Resource(allLinkArrays, allEmbeddedArrays, validation)
-  copyNonHalProperties(unparsed, resource)
-  resource._original = unparsed
-  return resource
+      validation, path.push('_embedded'));
+  var resource = new Resource(allLinkArrays, curies, allEmbeddedArrays,
+      validation);
+  copyNonHalProperties(unparsed, resource);
+  resource._original = unparsed;
+  return resource;
 }
 
 function parseLinks(links, validation, path) {
-  links = parseHalProperty(links, parseLink, validation, path)
+  links = parseHalProperty(links, parseLink, validation, path);
   if (links == null || links.self == null) {
     // No links at all? Then it implictly misses the self link which it SHOULD
     // have according to spec
     reportValidationIssue('Resource does not have a self link', validation,
-        path)
+        path);
   }
-  return links
+  return links;
+}
+
+function parseCuries(linkArrays) {
+  if (linkArrays) {
+    return linkArrays.curies;
+  } else {
+    return [];
+  }
 }
 
 function parseEmbeddedResourcess(original, parentValidation, path) {
-  var embedded = parseHalProperty(original, identity, parentValidation, path)
+  var embedded = parseHalProperty(original, identity, parentValidation, path);
   if (embedded == null) {
-    return embedded
+    return embedded;
   }
   Object.keys(embedded).forEach(function(key) {
     embedded[key] = embedded[key].map(function(embeddedElement) {
-      var childValidation = parentValidation != null ? [] : null
+      var childValidation = parentValidation != null ? [] : null;
       var embeddedResource = _parse(embeddedElement, childValidation,
-          path.push(key))
-      embeddedResource._original = embeddedElement
-      return embeddedResource
-    })
-  })
-  return embedded
+          path.push(key));
+      embeddedResource._original = embeddedElement;
+      return embeddedResource;
+    });
+  });
+  return embedded;
 }
 
 /*
@@ -139,9 +148,9 @@ function parseEmbeddedResourcess(original, parentValidation, path) {
 function copyNonHalProperties(unparsed, resource) {
   Object.keys(unparsed).forEach(function(key) {
     if (key !== '_links' && key !== '_embedded') {
-      resource[key] = unparsed[key]
+      resource[key] = unparsed[key];
     }
-  })
+  });
 }
 
 /*
@@ -151,66 +160,66 @@ function copyNonHalProperties(unparsed, resource) {
  */
 function parseHalProperty(property, processingFunction, validation, path) {
   if (property == null) {
-    return property
+    return property;
   }
 
   // create a shallow copy of the _links/_embedded object
-  var copy = {}
+  var copy = {};
 
   // normalize each link/each embedded object and put it into our copy
   Object.keys(property).forEach(function(key) {
     copy[key] = arrayfy(key, property[key], processingFunction,
-        validation, path)
-  })
-  return copy
+        validation, path);
+  });
+  return copy;
 }
 
 function arrayfy(key, object, fn, validation, path) {
   if (isArray(object)) {
     return object.map(function(element) {
-      return fn(key, element, validation, path)
-    })
+      return fn(key, element, validation, path);
+    });
   } else {
-    return [fn(key, object, validation, path)]
+    return [fn(key, object, validation, path)];
   }
 }
 
 
 function parseLink(linkKey, link, validation, path) {
   // create a shallow copy of the link object
-  var copy = shallowCopy(link)
+  var copy = shallowCopy(link);
 
   // add missing properties mandated by spec and do generic validation
   Object.keys(linkSpec).forEach(function(key) {
     if (copy[key] == null) {
       if (linkSpec[key].required) {
         reportValidationIssue('Link misses required property ' + key + '.',
-            validation, path.push(linkKey))
+            validation, path.push(linkKey));
       }
       if (linkSpec[key].defaultValue != null) {
-        copy[key] = linkSpec[key].defaultValue
+        copy[key] = linkSpec[key].defaultValue;
       }
     }
-  })
+  });
 
   // check more inter-property relations mandated by spec
   if (copy.deprecation) {
     log('Warning: Link ' + pathToString(path.push(linkKey)) +
-        ' is deprecated, see ' + copy.deprecation)
+        ' is deprecated, see ' + copy.deprecation);
   }
   if (copy.templated !== true && copy.templated !== false) {
-    copy.templated = false
+    copy.templated = false;
   }
 
   if (!validation) {
-    return copy
+    return copy;
   }
   if (copy.href && copy.href.indexOf('{') >= 0 && !copy.templated) {
     reportValidationIssue('Link seems to be an URI template ' +
         'but its "templated" property is not set to true.', validation,
-        path.push(linkKey))
+        path.push(linkKey));
   }
-  return copy
+  return copy;
 }
 
 function isArray(o) {
@@ -218,7 +227,7 @@ function isArray(o) {
 }
 
 function identity(key, object) {
-  return object
+  return object;
 }
 
 function reportValidationIssue(message, validation, path) {
@@ -226,103 +235,123 @@ function reportValidationIssue(message, validation, path) {
     validation.push({
       path: pathToString(path),
       message: message
-    })
+    });
   }
 }
 
 // TODO fix this ad hoc mess - does ie support console.log as of ie9?
 function log(message) {
   if (typeof console !== 'undefined' && typeof console.log === 'function') {
-    console.log(message)
+    console.log(message);
   }
 }
 
 function shallowCopy(source) {
-  var copy = {}
+  var copy = {};
   Object.keys(source).forEach(function(key) {
-    copy[key] = source[key]
-  })
-  return copy
+    copy[key] = source[key];
+  });
+  return copy;
 }
 
 function pathToString(path) {
-  var s = '$.'
+  var s = '$.';
   for (var i = 0; i < path.array().length; i++) {
-    s += path.array()[i] + '.'
+    s += path.array()[i] + '.';
   }
-  s = s.substring(0, s.length - 1)
-  return s
+  s = s.substring(0, s.length - 1);
+  return s;
 }
 
-module.exports = Parser
+module.exports = Parser;
 
 },{"./immutable_stack":3,"./resource":5}],5:[function(require,module,exports){
 'use strict';
 
-function Resource(links, embedded, validationIssues) {
-  var self = this
-  this._links = links || {}
-  this._embedded = embedded || {}
-  this._validation = validationIssues || []
+function Resource(links, curies, embedded, validationIssues) {
+  var self = this;
+  this._links = links || {};
+  initCuries(this, curies);
+  this._embedded = embedded || {};
+  this._validation = validationIssues || [];
+}
 
+function initCuries(self, curies) {
+  self._curiesMap = {};
+  if (!curies) {
+    self._curies = [];
+  } else {
+    self._curies = curies;
+    for (var i = 0; i < self._curies.length; i++) {
+      var curie = self._curies[i];
+      self._curiesMap[curie.name] = curie;
+    }
+  }
 }
 
 Resource.prototype.allLinkArrays = function() {
-  return this._links
-}
+  return this._links;
+};
 
 Resource.prototype.linkArray = function(key) {
-  return propertyArray(this._links, key)
-}
+  return propertyArray(this._links, key);
+};
 
 Resource.prototype.link = function(key, index) {
-  return elementOfPropertyArray(this._links, key, index)
-}
+  return elementOfPropertyArray(this._links, key, index);
+};
+
+Resource.prototype.curieArray = function(key) {
+  return this._curies;
+};
+
+Resource.prototype.curie = function(name) {
+  return this._curiesMap[name];
+};
 
 Resource.prototype.allEmbeddedResourceArrays = function () {
-  return this._embedded
-}
+  return this._embedded;
+};
 
 Resource.prototype.embeddedResourceArray = function(key) {
-  return propertyArray(this._embedded, key)
-}
+  return propertyArray(this._embedded, key);
+};
 
 Resource.prototype.embeddedResource = function(key, index) {
-  return elementOfPropertyArray(this._embedded, key, index)
-}
+  return elementOfPropertyArray(this._embedded, key, index);
+};
 
 Resource.prototype.original = function() {
-  return this._original
-}
+  return this._original;
+};
 
 function propertyArray(object, key) {
-  return object != null ? object[key] : null
+  return object != null ? object[key] : null;
 }
 
 function elementOfPropertyArray(object, key, index) {
-  index = index || 0
-  var array = propertyArray(object, key)
+  index = index || 0;
+  var array = propertyArray(object, key);
   if (array != null && array.length >= 1) {
-    return array[index]
+    return array[index];
   }
-  return null
+  return null;
 }
-
 
 Resource.prototype.validationIssues = function() {
-  return this._validation
-}
+  return this._validation;
+};
 
 // alias definitions
-Resource.prototype.allLinks = Resource.prototype.allLinkArrays
+Resource.prototype.allLinks = Resource.prototype.allLinkArrays;
 Resource.prototype.allEmbeddedArrays =
     Resource.prototype.allEmbeddedResources =
-    Resource.prototype.allEmbeddedResourceArrays
-Resource.prototype.embeddedArray = Resource.prototype.embeddedResourceArray
-Resource.prototype.embedded = Resource.prototype.embeddedResource
-Resource.prototype.validation = Resource.prototype.validationIssues
+    Resource.prototype.allEmbeddedResourceArrays;
+Resource.prototype.embeddedArray = Resource.prototype.embeddedResourceArray;
+Resource.prototype.embedded = Resource.prototype.embeddedResource;
+Resource.prototype.validation = Resource.prototype.validationIssues;
 
-module.exports = Resource
+module.exports = Resource;
 
-},{}]},{},["7fyf1i"])
+},{}]},{},["HfTRU1"])
 ;

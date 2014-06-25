@@ -7,5 +7,5 @@ exports.get = function() {
         href: 'dummy'
       }
     }
-  }
-}
+  };
+};
