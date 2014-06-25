@@ -26,13 +26,13 @@ npm:
 
 ### Browser
 
-Download and use one of the following:
-
-* [Minified build with UMD](https://raw.github.com/basti1302/halfred/master/browser/dist/halfred.min.js): This build can be used with an AMD loader like RequireJS or with a script tag (in which case it will register `halfred` in the global scope). **If in doubt, use this build.**
-* [Non-minified build with UMD](https://raw.github.com/basti1302/halfred/master/browser/dist/halfred.js): Same as above, just larger :-)
-* If your project uses browserify, you don't need to do anything. Just `npm install halfred --save` and `require('halfred')`, then browserify your module as usual.
-* [Minified require/external build](https://raw.github.com/basti1302/halfred/master/browser/dist/halfred.external.min.js): Created with browserify's `--require` parameter and intended to be used (required) from other browserified modules, which were created with `--external halfred`. This build could be used if you use browserify but do not want to bundle Halfred with your own browserify build but keep it as a separate file.
-* [Non-minified require/external build](https://raw.github.com/basti1302/halfred/master/browser/dist/halfred.external.js): Same as before, just bigger.
+* If you are using npm and [Browserify](http://browserify.org/): Just `npm install halfred --save` and `require('halfred')`, then browserify your module as usual.
+* If you are using [Bower](http://bower.io): `bower install halfred --save`
+* Otherwise you can grab a download from the [latest release](https://github.com/basti1302/halfred/releases/latest):
+* halfred.min.js: Minified build with UMD. This build can be used with an AMD loader like RequireJS or with a script tag (in which case it will register `halfred` in the global scope). **If in doubt, use this build.**
+* halfred.js: Non-minified build with UMD. Same as above, just larger :-)
+* halfred.external.min.js: Minified require/external build. Created with browserify's `--require` parameter and intended to be used (required) from other browserified modules, which were created with `--external halfred`. This build could be used if you use browserify but do not want to bundle Halfred with your own browserify build but keep it as a separate file.
+* halfred.external.js: Non-minified require/external build. Same as before, just bigger.
 
 ### Usage
 

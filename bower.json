@@ -1,0 +1,28 @@
+{
+  "name": "halfred",
+  "main": "browser/dist/halfred.js",
+  "version": "0.3.0",
+  "homepage": "https://github.com/basti1302/halfred",
+  "authors": [
+    "Bastian Krol <bastian.krol@web.de>"
+  ],
+  "description": "parses JSON HAL resources (Hypertext Application Language)",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "HAL",
+    "REST",
+    "JSON"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bin",
+    "bower_components",
+    "howto_release.markdown",
+    "lib",
+    "node_modules",
+    "test"
+  ]
+}
