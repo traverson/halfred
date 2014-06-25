@@ -55,6 +55,8 @@ Download and use one of the following:
 * `embeddedResource(key)`: Returns the first element of the array of embedded resources for the given `key` or `null` if there are no embedded resources for this `key`. The returend object is a `Resource` object.
 * `embedded(key)`: Alias for `embeddedResource(key)`
 * `original()`: Returns the unmodified, original object that was parsed to this resource. This is rather uninteresting for the source object you give to the `parse` method (because you probably still have a reference to the source object) but it is a convenient way to get the part of the source object that corresponds to an embedded resource.
+* `curieArray`: Returns the array of curies. Each object in the array is a link object, which means it can be templated etc. See below for link object API.
+* `curie(name)`: Returns the curie with the given name, if any. The returned object is a link object, which means it can be templated etc. See below for link object API.
 * `validationIssues()`: Returns all validation issues. Validation issues are only gathered if validation has been turned on by calling `halfred.enableValidation()` before calling `halfred.parse`.
 * `validation()`: Alias for `validationIssues()`
 
@@ -79,6 +81,7 @@ In some situations, it might be desirable to validate the resource you want to p
 Release Notes
 -------------
 
+* 0.3.0 2014-06-24: Parse curies
 * 0.2.0 2013-11-22: Make the source object of a parsed resource available (useful for embedded resources)
 * 0.1.1 2013-11-21: Leave source object untouched while parsing
 * 0.1.0 2013-11-21: Initial release

@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  curies: require('./fixtures/curies'),
   deprecation: require('./fixtures/deprecation'),
   minimal: require('./fixtures/minimal'),
   noEmbedded: require('./fixtures/no_embedded'),

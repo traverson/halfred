@@ -186,6 +186,20 @@ describe('Parsing HAL', function () {
        .to.deep.equal(unparsed._embedded.orders[1])
   })
 
+  it('should parse curies', function () {
+    var unparsed = fixtures.curies.get()
+    var resource = halfred.parse(unparsed)
+    expect(resource.curieArray()).to.exist
+    var curie1 = resource.curie('curie1')
+    expect(curie1.name).to.equal('curie1')
+    expect(curie1.templated).to.equal.true
+    expect(curie1.href).to.equal('http://docs.example.com/relations/{rel}')
+    var curie2 = resource.curie('curie2')
+    expect(curie2.name).to.equal('curie2')
+    expect(curie2.templated).to.be.false
+    expect(curie2.href).to.equal('http://docs.example.com/relations/curie2')
+  })
+
   it('should parse a resource without links', function () {
     var unparsed = fixtures.noLinks.get()
     var resource = halfred.parse(unparsed)
