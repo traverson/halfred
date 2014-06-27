@@ -10,6 +10,7 @@ Halfred
 A "parser" for the JSON-flavour of HAL, the Hypertext Application Language (that is `application/hal+json`). If you feed it an object that has `_links` and `_embedded` properties, as desribed in the HAL spec, it will make all links and embedded resource available via convenient methods. If requested, Halfred can also validate a HAL object.
 
 For more information on HAL, see
+
 * [the formal spec](http://tools.ietf.org/html/draft-kelly-json-hal)
 * [a less formal introduction](http://stateless.co/hal_specification.html)
 
@@ -55,7 +56,7 @@ npm:
 * `embeddedResource(key)`: Returns the first element of the array of embedded resources for the given `key` or `null` if there are no embedded resources for this `key`. The returend object is a `Resource` object.
 * `embedded(key)`: Alias for `embeddedResource(key)`
 * `original()`: Returns the unmodified, original object that was parsed to this resource. This is rather uninteresting for the source object you give to the `parse` method (because you probably still have a reference to the source object) but it is a convenient way to get the part of the source object that corresponds to an embedded resource.
-* `hasCuries()`: Returns `true` if the resource has any CURIEs ((Compact URIs)[http://www.w3.org/TR/2010/NOTE-curie-20101216/]).
+* `hasCuries()`: Returns `true` if the resource has any CURIEs ([Compact URIs](http://www.w3.org/TR/2010/NOTE-curie-20101216/)).
 * `curieArray()`: Returns the array of CURIEs. Each object in the array is a link object, which means it can be templated etc. See below for the link object API.
 * `curie(name)`: Returns the curie with the given name, if any. The returned object is a link object, which means it can be templated etc. See below for link object API.
 * `reverseResolveCurie(fullUrl)`: Returns the compact URI for the given full URL, if any.
