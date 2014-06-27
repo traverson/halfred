@@ -189,15 +189,61 @@ describe('Parsing HAL', function () {
   it('should parse curies', function () {
     var unparsed = fixtures.curies.get();
     var resource = halfred.parse(unparsed);
+    expect(resource.hasCuries()).to.be.true;
     expect(resource.curieArray()).to.exist;
-    var curie1 = resource.curie('curie1');
-    expect(curie1.name).to.equal('curie1');
-    expect(curie1.templated).to.equal.true;
-    expect(curie1.href).to.equal('http://docs.example.com/relations/{rel}');
-    var curie2 = resource.curie('curie2');
-    expect(curie2.name).to.equal('curie2');
-    expect(curie2.templated).to.be.false;
-    expect(curie2.href).to.equal('http://docs.example.com/relations/curie2');
+    expect(resource.curieArray()).to.be.an('array');
+    expect(resource.curieArray().length).to.equal(2);
+    var fullUrl1 = resource.curie('curie1');
+    expect(fullUrl1.name).to.equal('curie1');
+    expect(fullUrl1.templated).to.equal.true;
+    expect(fullUrl1.href).to.equal('http://docs.example.com/relations/{rel}');
+    var fullUrl2 = resource.curie('curie2');
+    expect(fullUrl2.name).to.equal('curie2');
+    expect(fullUrl2.templated).to.be.false;
+    expect(fullUrl2.href).to.equal('http://docs.example.com/relations/curie2');
+  });
+
+  it('should recognize that there are no curies', function () {
+    var unparsed = fixtures.shop.get();
+    var resource = halfred.parse(unparsed);
+    expect(resource.hasCuries()).to.be.false;
+    expect(resource.curieArray()).to.be.an('array');
+    expect(resource.curieArray().length).to.equal(0);
+    expect(resource.curie('whatever')).to.not.exist;
+  });
+
+  it('should reverse resolve non-templated curies', function () {
+    var unparsed = fixtures.curies.get();
+    var resource = halfred.parse(unparsed);
+    var curie = resource.reverseResolveCurie(
+      'http://docs.example.com/relations/curie2');
+    expect(curie).to.equal('curie2');
+  });
+
+  it('should reverse resolve templated curies', function () {
+    var unparsed = fixtures.curies.get();
+    var resource = halfred.parse(unparsed);
+    var curie = resource.reverseResolveCurie(
+      'http://docs.example.com/relations/value');
+    expect(curie).to.equal('curie1:value');
+  });
+
+  it('should reverse resolve to null/undefined if curie url does not ' +
+      'exist', function () {
+    var unparsed = fixtures.curies.get();
+    var resource = halfred.parse(unparsed);
+    var curie = resource.reverseResolveCurie(
+      'http://docs.example.com/does/not/exist');
+    expect(curie).to.not.exist;
+  });
+
+  it('should reverse resolve to null/undefined if there is no templated ' +
+      ' match', function () {
+    var unparsed = fixtures.curies.get();
+    var resource = halfred.parse(unparsed);
+    var curie = resource.reverseResolveCurie(
+      'http://docs.example.com/relations/doesnotexist');
+    expect(curie).to.not.exist;
   });
 
   it('should parse a resource without links', function () {
