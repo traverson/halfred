@@ -29,10 +29,10 @@ npm:
 * If you are using npm and [Browserify](http://browserify.org/): Just `npm install halfred --save` and `require('halfred')`, then browserify your module as usual.
 * If you are using [Bower](http://bower.io): `bower install halfred --save`
 * Otherwise you can grab a download from the [latest release](https://github.com/basti1302/halfred/releases/latest):
-* halfred.min.js: Minified build with UMD. This build can be used with an AMD loader like RequireJS or with a script tag (in which case it will register `halfred` in the global scope). **If in doubt, use this build.**
-* halfred.js: Non-minified build with UMD. Same as above, just larger :-)
-* halfred.external.min.js: Minified require/external build. Created with browserify's `--require` parameter and intended to be used (required) from other browserified modules, which were created with `--external halfred`. This build could be used if you use browserify but do not want to bundle Halfred with your own browserify build but keep it as a separate file.
-* halfred.external.js: Non-minified require/external build. Same as before, just bigger.
+    * halfred.min.js: Minified build with UMD. This build can be used with an AMD loader like RequireJS or with a script tag (in which case it will register `halfred` in the global scope). **If in doubt, use this build.**
+    * halfred.js: Non-minified build with UMD. Same as above, just larger :-)
+    * halfred.external.min.js: Minified require/external build. Created with browserify's `--require` parameter and intended to be used (required) from other browserified modules, which were created with `--external halfred`. This build could be used if you use browserify but do not want to bundle Halfred with your own browserify build but keep it as a separate file.
+    * halfred.external.js: Non-minified require/external build. Same as before, just bigger.
 
 ### Usage
 
@@ -55,8 +55,10 @@ npm:
 * `embeddedResource(key)`: Returns the first element of the array of embedded resources for the given `key` or `null` if there are no embedded resources for this `key`. The returend object is a `Resource` object.
 * `embedded(key)`: Alias for `embeddedResource(key)`
 * `original()`: Returns the unmodified, original object that was parsed to this resource. This is rather uninteresting for the source object you give to the `parse` method (because you probably still have a reference to the source object) but it is a convenient way to get the part of the source object that corresponds to an embedded resource.
-* `curieArray`: Returns the array of curies. Each object in the array is a link object, which means it can be templated etc. See below for link object API.
+* `hasCuries()`: Returns `true` if the resource has any CURIEs ((Compact URIs)[http://www.w3.org/TR/2010/NOTE-curie-20101216/]).
+* `curieArray()`: Returns the array of CURIEs. Each object in the array is a link object, which means it can be templated etc. See below for the link object API.
 * `curie(name)`: Returns the curie with the given name, if any. The returned object is a link object, which means it can be templated etc. See below for link object API.
+* `reverseResolveCurie(fullUrl)`: Returns the compact URI for the given full URL, if any.
 * `validationIssues()`: Returns all validation issues. Validation issues are only gathered if validation has been turned on by calling `halfred.enableValidation()` before calling `halfred.parse`.
 * `validation()`: Alias for `validationIssues()`
 
@@ -81,7 +83,7 @@ In some situations, it might be desirable to validate the resource you want to p
 Release Notes
 -------------
 
-* 0.3.0 2014-06-24: Parse curies
+* 0.3.0 2014-06-27: Parse curies
 * 0.2.0 2013-11-22: Make the source object of a parsed resource available (useful for embedded resources)
 * 0.1.1 2013-11-21: Leave source object untouched while parsing
 * 0.1.0 2013-11-21: Initial release
