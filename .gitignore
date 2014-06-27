@@ -1,2 +1,11 @@
 node_modules
+
+browser/dist/halfred.external.js
+browser/dist/halfred.external.min.js
+browser/dist/halfred.js
+browser/dist/halfred.min.js
+browser/test/browserified_tests.js
+
+# vim tmp files
 *.swp
+*.un~
