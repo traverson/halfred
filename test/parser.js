@@ -6,13 +6,13 @@ var halfred = require('../halfred')
   , expect = chai.expect
   , assert = chai.assert;
 
-describe('Parsing HAL', function () {
+describe('Parsing HAL', function() {
 
   afterEach(function() {
     halfred.disableValidation();
   });
 
-  it('should parse the minimal example fixture', function () {
+  it('should parse the minimal example fixture', function() {
     var unparsed = fixtures.minimal.get();
     var resource = halfred.parse(unparsed);
 
@@ -32,7 +32,7 @@ describe('Parsing HAL', function () {
     expect(resource.link('self').href).to.equal('dummy');
   });
 
-  it('should not modify the source object', function () {
+  it('should not modify the source object', function() {
     var unparsed = fixtures.minimal.get();
     var resource = halfred.parse(unparsed);
 
@@ -53,7 +53,7 @@ describe('Parsing HAL', function () {
     expect(resource._validation).to.be.an('array');
   });
 
-  it('should parse the standard HAL example - main links', function () {
+  it('should parse the standard HAL example - main links', function() {
     var unparsed = fixtures.shop.get();
     var resource = halfred.parse(unparsed);
 
@@ -65,7 +65,7 @@ describe('Parsing HAL', function () {
     expect(resource.link('find').templated).to.be.true;
   });
 
-  it('should parse the standard HAL example - admin links', function () {
+  it('should parse the standard HAL example - admin links', function() {
     var unparsed = fixtures.shop.get();
     var resource = halfred.parse(unparsed);
 
@@ -85,7 +85,7 @@ describe('Parsing HAL', function () {
     expect(resource.link('admin', 1).title).to.equal('Kate');
   });
 
-  it('should parse the standard HAL example - properties', function () {
+  it('should parse the standard HAL example - properties', function() {
     var unparsed = fixtures.shop.get();
     var resource = halfred.parse(unparsed);
 
@@ -94,7 +94,7 @@ describe('Parsing HAL', function () {
     expect(resource.shippedToday).to.equal(20);
   });
 
-  it('should parse the standard HAL example - embedded resources', function () {
+  it('should parse the standard HAL example - embedded resources', function() {
     var unparsed = fixtures.shop.get();
     var resource = halfred.parse(unparsed);
 
@@ -136,7 +136,7 @@ describe('Parsing HAL', function () {
   });
 
   it('should not modify the embedded resources in the source object',
-      function () {
+      function() {
     var unparsed = fixtures.shop.get();
     var resource = halfred.parse(unparsed);
 
@@ -177,7 +177,7 @@ describe('Parsing HAL', function () {
   });
 
   it('should store the original source object in the resource',
-      function () {
+      function() {
     var unparsed = fixtures.shop.get();
     var resource = halfred.parse(unparsed);
     expect(resource.original())
@@ -186,7 +186,7 @@ describe('Parsing HAL', function () {
        .to.deep.equal(unparsed._embedded.orders[1]);
   });
 
-  it('should parse curies', function () {
+  it('should parse curies', function() {
     var unparsed = fixtures.curies.get();
     var resource = halfred.parse(unparsed);
     expect(resource.hasCuries()).to.be.true;
@@ -203,7 +203,7 @@ describe('Parsing HAL', function () {
     expect(fullUrl2.href).to.equal('http://docs.example.com/relations/curie2');
   });
 
-  it('should recognize that there are no curies', function () {
+  it('should recognize that there are no curies', function() {
     var unparsed = fixtures.shop.get();
     var resource = halfred.parse(unparsed);
     expect(resource.hasCuries()).to.be.false;
@@ -212,7 +212,7 @@ describe('Parsing HAL', function () {
     expect(resource.curie('whatever')).to.not.exist;
   });
 
-  it('should reverse resolve non-templated curies', function () {
+  it('should reverse resolve non-templated curies', function() {
     var unparsed = fixtures.curies.get();
     var resource = halfred.parse(unparsed);
     var curie = resource.reverseResolveCurie(
@@ -220,7 +220,7 @@ describe('Parsing HAL', function () {
     expect(curie).to.equal('curie2');
   });
 
-  it('should reverse resolve templated curies', function () {
+  it('should reverse resolve templated curies', function() {
     var unparsed = fixtures.curies.get();
     var resource = halfred.parse(unparsed);
     var curie = resource.reverseResolveCurie(
@@ -229,7 +229,7 @@ describe('Parsing HAL', function () {
   });
 
   it('should reverse resolve to null/undefined if curie url does not ' +
-      'exist', function () {
+      'exist', function() {
     var unparsed = fixtures.curies.get();
     var resource = halfred.parse(unparsed);
     var curie = resource.reverseResolveCurie(
@@ -238,7 +238,7 @@ describe('Parsing HAL', function () {
   });
 
   it('should reverse resolve to null/undefined if there is no templated ' +
-      ' match', function () {
+      ' match', function() {
     var unparsed = fixtures.curies.get();
     var resource = halfred.parse(unparsed);
     var curie = resource.reverseResolveCurie(
@@ -246,7 +246,7 @@ describe('Parsing HAL', function () {
     expect(curie).to.not.exist;
   });
 
-  it('should parse a resource without links', function () {
+  it('should parse a resource without links', function() {
     var unparsed = fixtures.noLinks.get();
     var resource = halfred.parse(unparsed);
 
@@ -268,7 +268,7 @@ describe('Parsing HAL', function () {
     expect(resource.property).to.equal('value');
   });
 
-  it('should parse a resource without embedded resources', function () {
+  it('should parse a resource without embedded resources', function() {
     var unparsed = fixtures.noEmbedded.get();
     var resource = halfred.parse(unparsed);
 
@@ -292,7 +292,7 @@ describe('Parsing HAL', function () {
   });
 
   it('should not report validation issues when validation is turned off',
-      function () {
+      function() {
     var unparsed = fixtures.validation.get();
     var resource = halfred.parse(unparsed);
     checkInvalidResource(resource);
@@ -302,7 +302,7 @@ describe('Parsing HAL', function () {
   });
 
   it('should report validation issues when validation is turned on',
-      function () {
+      function() {
     halfred.enableValidation();
     var unparsed = fixtures.validation.get();
     var resource = halfred.parse(unparsed);
@@ -347,10 +347,21 @@ describe('Parsing HAL', function () {
     */
   });
 
-  it('should report deprecation to log', function () {
+  it('should report deprecation to log', function() {
     var unparsed = fixtures.deprecation.get();
     var resource = halfred.parse(unparsed);
     // Duh, how to check what is logged?! Currently we log to console.log :-(
+  });
+
+  it('should report primitive link objects correctly', function() {
+    var unparsed = fixtures.primitiveLink.get();
+    try {
+      halfred.parse(unparsed);
+      assert.fail();
+    } catch (e) {
+      expect(e.message).to.equal('Link object is not an actual object: ' +
+        '/links-must-be-objects [string]');
+    }
   });
 
   function checkInvalidResource(resource) {
