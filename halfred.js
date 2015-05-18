@@ -1,4 +1,5 @@
 var Parser = require('./lib/parser')
+  , Resource = require('./lib/resource')
   , validationFlag = false;
 
 module.exports = {
@@ -13,5 +14,8 @@ module.exports = {
 
   disableValidation: function() {
     validationFlag = false;
-  }
+  },
+
+  Resource: Resource
+
 };
