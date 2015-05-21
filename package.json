@@ -1,6 +1,6 @@
 {
   "name": "halfred",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "parses JSON HAL resources (Hypertext Application Language)",
   "main": "halfred.js",
   "repository": "git://github.com/basti1302/halfred.git",
@@ -16,26 +16,15 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "chai": "~1.7.2",
-    "grunt": "~0.4.1",
-    "grunt-browserify": "~1.2.11",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-uglify": "~0.2.7",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-mocha-phantomjs": "~0.3.1",
-    "grunt-mocha-test": "~0.7.0",
-    "mocha": "~1.12.1"
-  },
-  "testling": {
-    "browsers": [
-      "ie9", "ie10",
-      "ff/20", "ff/23", "ff/nightly",
-      "chrome/29", "chrome/canary",
-      "opera/15", "opera/next",
-      "safari/6.0"
-    ],
-    "harness" : "mocha",
-    "files": ["test/*.js"]
+    "chai": "^1.7.2",
+    "grunt": "^0.4.1",
+    "grunt-browserify": "^1.2.11",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-jshint": "^0.6.4",
+    "grunt-contrib-uglify": "^0.2.7",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-mocha-phantomjs": "^0.3.1",
+    "grunt-mocha-test": "^0.7.0",
+    "mocha": "^1.12.1"
   }
 }
