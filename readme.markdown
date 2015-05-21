@@ -42,7 +42,7 @@ npm:
 
 #### Resource API
 
-`halfred.parse(object)` returns a resource object. Here's what you can do with it:
+`halfred.parse(object)` returns a `Resource` object. Here's what you can do with it:
 
 * `allLinkArrays()`: Returns an object which has an array for each link that was present in the source object. See below why each link is represented as an array.
 * `allLinks()`: Alias for `allLinkArrays`
@@ -63,9 +63,27 @@ npm:
 * `validationIssues()`: Returns all validation issues. Validation issues are only gathered if validation has been turned on by calling `halfred.enableValidation()` before calling `halfred.parse`.
 * `validation()`: Alias for `validationIssues()`
 
-In addition to the methods mentioned here, `resource` has all properties of the source object. This is also true for embedded resource objects. The non-HAL properties (that is, any property except `_links` and `_embedded`) are copied over to the Resource object. This is always a shallow copy, so modifying the a non-HAL property in the Resource object might also alter the source object and vice versa.
+In addition to the methods mentioned here, `resource` has all properties of the source object. This is also true for embedded `Resource` objects. The non-HAL properties (that is, any property except `_links` and `_embedded`) are copied over to the `Resource` object. This is always a shallow copy, so modifying the a non-HAL property in the `Resource` object might also alter the source object and vice versa.
 
-The Resource object also has the properties `_links` and `_embedded` but they might differ from the `_links`/`_embedded` properties in the source object (Halfred applies some normalization to them). These are not intended to be accessed by clients directly, instead, use the provided methods to work with links and embedded resources.
+The `Resource` object also has the properties `_links` and `_embedded` but they might differ from the `_links`/`_embedded` properties in the source object (Halfred applies some normalization to them). These are not intended to be accessed by clients directly, instead, use the provided methods to work with links and embedded resources.
+
+##### Extending `Resource` objects
+
+The `Resource` class is exported on the halfred object, and therefore can be extended by attaching new methods to the prototype:
+
+```javascript
+    var halfred = require('halfred');
+    halfred.Resource.prototype.followLink = function followLink(key, callback) {
+      var link = this.link(key);
+      if (link) {
+        return $.get(link.href, callback);
+      }
+    }
+    var resource = halfred.parse(object);
+    resource.followLink('self', function(data) {
+      console.log('response data', data);
+    });
+```
 
 #### Links And Embedded Resources
 
@@ -77,7 +95,7 @@ Once you have the link object, you can access the properties `href`, `templated`
 
 #### Enable/Disable Validation
 
-In some situations, it might be desirable to validate the resource you want to parse and check, if it is valid according to the HAL spec. By default, Halfred does not do validation checks. If you want to have validation checks you can enable them by calling `halfred.enableValidation()`. Then after parsing a source object, call `validationIssues()` on the resource object returned by `parse` to get an array of all validation issues.
+In some situations, it might be desirable to validate the resource you want to parse and check, if it is valid according to the HAL spec. By default, Halfred does not do validation checks. If you want to have validation checks you can enable them by calling `halfred.enableValidation()`. Then after parsing a source object, call `validationIssues()` on the `Resource` object returned by `parse` to get an array of all validation issues.
 
  You can disable validation checks again by calling `halfred.disableValidation()`.You can also call `halfred.enableValidation(true)` or `halfred.enableValidation(false)` to enable/disable validation.
 
