@@ -7,7 +7,7 @@ Halfred
 
 [![NPM](https://nodei.co/npm/halfred.png?downloads=true&stars=true)](https://nodei.co/npm/halfred/)
 
-A "parser" for the JSON-flavour of HAL, the Hypertext Application Language (that is `application/hal+json`). If you feed it an object that has `_links` and `_embedded` properties, as desribed in the HAL spec, it will make all links and embedded resource available via convenient methods. If requested, Halfred can also validate a HAL object.
+A "parser" for the JSON-flavour of HAL, the Hypertext Application Language (that is `application/hal+json`). If you feed it an object that has `_links` and `_embedded` properties, as described in the HAL spec, it will make all links and embedded resource available via convenient methods. If requested, Halfred can also validate a HAL object.
 
 For more information on HAL, see
 
