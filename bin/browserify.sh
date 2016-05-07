@@ -30,7 +30,7 @@ browserify \
 
 # These are the browserified tests.
 browserify \
-  --entry browser/test/suite.js \
+  --entry test/browser_suite.js \
   --outfile browser/test/browserified_tests.js \
   --external ./halfred.is
 
