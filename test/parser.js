@@ -1,6 +1,6 @@
 'use strict';
 
-var halfred = require('../halfred')
+var halfred = require('../halfred.js')
   , fixtures = require('./fixtures')
   , chai = require('chai')
   , expect = chai.expect

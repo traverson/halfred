@@ -44,7 +44,9 @@ module.exports = function(grunt) {
         src: [ '<%= pkg.name %>.js' ],
         dest: './browser/dist/<%= pkg.name %>.js',
         options: {
-          standalone: '<%= pkg.name %>'
+          browserifyOptions: {
+            standalone: '<%= pkg.name %>'
+          }
         }
       },
       // This browserify build can be required by other browserify modules that
@@ -53,17 +55,19 @@ module.exports = function(grunt) {
         src: [ '<%= pkg.name %>.js' ],
         dest: './browser/dist/<%= pkg.name %>.external.js',
         options: {
-          alias: [ './<%= pkg.name %>.js:' ]
+          alias: [ './halfred.js:halfred' ]
         }
       },
       // Browserified tests.
       tests: {
-        src: [ 'browser/test/suite.js' ],
+        src: [ 'test/browser_suite.js' ],
         dest: './browser/test/browserified_tests.js',
         options: {
-          external: [ './<%= pkg.name %>.js' ],
-          // Embed source map for tests
-          debug: true
+          external: [ './halfred.js:halfred' ],
+          browserifyOptions: {
+            // Embed source map for tests
+            debug: true,
+          }
         }
       }
     },
@@ -80,9 +84,15 @@ module.exports = function(grunt) {
       }
     },
 
-    // run the mocha tests in the browser via PhantomJS
-    'mocha_phantomjs': {
-      all: ['browser/test/index.html']
+    // run the mocha tests in PhantomJS
+    mocha: {
+      test: {
+        src: [ 'browser/test/index.html' ],
+        options: {
+          timeout: 20000,
+          reporter: 'spec',
+        }
+      }
     },
 
     watch: {
@@ -91,13 +101,8 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-mocha-phantomjs');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  // load all grunt-tasks
+  require('load-grunt-tasks')(grunt);
 
   grunt.registerTask('default', [
     'jshint',
@@ -105,6 +110,6 @@ module.exports = function(grunt) {
     'clean',
     'browserify',
     'uglify',
-    'mocha_phantomjs'
+    'mocha',
   ]);
 };
