@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "parses JSON HAL resources (Hypertext Application Language)",
   "main": "halfred.js",
+  "typings": "halfred.d.ts",
   "repository": "git://github.com/basti1302/halfred.git",
   "keywords": [
     "HAL",
