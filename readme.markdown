@@ -1,9 +1,9 @@
 Halfred
 =======
 
-[![Build Status](https://travis-ci.org/basti1302/halfred.png?branch=master)](https://travis-ci.org/basti1302/halfred)
+[![Build Status](https://travis-ci.org/traverson/halfred.png?branch=master)](https://travis-ci.org/traverson/halfred)
 
-[![browser support](http://ci.testling.com/basti1302/halfred.png)](http://ci.testling.com/basti1302/halfred)
+[![browser support](http://ci.testling.com/traverson/halfred.png)](http://ci.testling.com/traverson/halfred)
 
 [![NPM](https://nodei.co/npm/halfred.png?downloads=true&stars=true)](https://nodei.co/npm/halfred/)
 
@@ -29,7 +29,7 @@ npm:
 
 * If you are using npm and [Browserify](http://browserify.org/): Just `npm install halfred --save` and `require('halfred')`, then browserify your module as usual.
 * If you are using [Bower](http://bower.io): `bower install halfred --save`
-* Otherwise you can grab a download from the [latest release](https://github.com/basti1302/halfred/releases/latest):
+* Otherwise you can grab a download from the [latest release](https://github.com/traverson/halfred/releases/latest):
     * halfred.min.js: Minified build with UMD. This build can be used with an AMD loader like RequireJS or with a script tag (in which case it will register `halfred` in the global scope). **If in doubt, use this build.**
     * halfred.js: Non-minified build with UMD. Same as above, just larger :-)
     * halfred.external.min.js: Minified require/external build. Created with browserify's `--require` parameter and intended to be used (required) from other browserified modules, which were created with `--external halfred`. This build could be used if you use browserify but do not want to bundle Halfred with your own browserify build but keep it as a separate file.
