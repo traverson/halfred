@@ -195,7 +195,7 @@ describe('Parsing HAL', function() {
     expect(resource.curieArray().length).to.equal(2);
     var fullUrl1 = resource.curie('curie1');
     expect(fullUrl1.name).to.equal('curie1');
-    expect(fullUrl1.templated).to.equal.true;
+    expect(fullUrl1.templated).to.be.true;
     expect(fullUrl1.href).to.equal('http://docs.example.com/relations/{rel}');
     var fullUrl2 = resource.curie('curie2');
     expect(fullUrl2.name).to.equal('curie2');
@@ -366,7 +366,7 @@ describe('Parsing HAL', function() {
 
   function checkInvalidResource(resource) {
     expect(resource.allLinkArrays()).to.exist;
-    expect(resource.link('self')).to.not.exits;
+    expect(resource.link('self')).to.not.exist;
     expect(resource.link('first')).to.exist;
     expect(resource.link('first').href).to.not.exist;
     expect(resource.link('second').type).to.exist;

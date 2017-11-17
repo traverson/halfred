@@ -16,17 +16,17 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.1.2",
     "grunt": "^1.0.1",
-    "grunt-browserify": "^5.0.0",
+    "grunt-browserify": "^5.2.0",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^3.1.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-mocha": "^1.0.2",
-    "grunt-mocha-test": "^0.12.7",
-    "load-grunt-tasks": "^3.5.0",
-    "mocha": "^2.4.5"
+    "grunt-mocha": "^1.0.4",
+    "grunt-mocha-test": "^0.13.3",
+    "load-grunt-tasks": "^3.5.2",
+    "mocha": "^4.0.1"
   }
 }
