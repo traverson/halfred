@@ -28,5 +28,10 @@
     "grunt-mocha-test": "^0.13.3",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^5.2.0"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "load-grunt-tasks"
+    ]
   }
 }
