@@ -96,7 +96,12 @@ Once you have the link object, you can access the properties `href`, `templated`
 
 In some situations, it might be desirable to validate the resource you want to parse and check, if it is valid according to the HAL spec. By default, Halfred does not do validation checks. If you want to have validation checks you can enable them by calling `halfred.enableValidation()`. Then after parsing a source object, call `validationIssues()` on the `Resource` object returned by `parse` to get an array of all validation issues.
 
- You can disable validation checks again by calling `halfred.disableValidation()`.You can also call `halfred.enableValidation(true)` or `halfred.enableValidation(false)` to enable/disable validation.
+ You can disable validation checks again by calling `halfred.disableValidation()`. You can also call `halfred.enableValidation(true)` or `halfred.enableValidation(false)` to enable/disable validation.
+
+#### Inject a Logger
+
+You can use `halfred.injectLogger(logger)` to inject any object that exposes the same API as `console` does, that is, it needs to provide the methods `log`, `warn`, etc. Actually, currently only `logger.warn` is used to print a deprecation warning as mandated by the Hal spec, [section 5.4](https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5.4). If no logger is injected, the global `console` object will be used. If this object does not exist, a no-op logger will be used and deprecation warnings will not be logged.
+
 
 Release Notes
 -------------
