@@ -102,15 +102,10 @@ In some situations, it might be desirable to validate the resource you want to p
 
 You can use `halfred.injectLogger(logger)` to inject any object that exposes the same API as `console` does, that is, it needs to provide the methods `log`, `warn`, etc. Actually, currently only `logger.warn` is used to print a deprecation warning as mandated by the Hal spec, [section 5.4](https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5.4). If no logger is injected, the global `console` object will be used. If this object does not exist, a no-op logger will be used and deprecation warnings will not be logged.
 
-
 Release Notes
 -------------
-* 1.0.0 2015-05-21: Export Resource object for extension (thanks to @joshuajabbour)
-* 0.4.0 2014-12-05: Check if link object is an actual object or a primitive
-* 0.3.0 2014-06-27: Parse curies
-* 0.2.0 2013-11-22: Make the source object of a parsed resource available (useful for embedded resources)
-* 0.1.1 2013-11-21: Leave source object untouched while parsing
-* 0.1.0 2013-11-21: Initial release
+
+See [CHANGELOG](https://github.com/traverson/halfred/blob/master/CHANGELOG.md).
 
 License
 -------
