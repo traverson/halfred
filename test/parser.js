@@ -1,12 +1,37 @@
 'use strict';
 
-var halfred = require('../halfred.js')
-  , fixtures = require('./fixtures')
-  , chai = require('chai')
-  , expect = chai.expect
-  , assert = chai.assert;
+var halfred = require('../halfred.js');
+var fixtures = require('./fixtures');
+var chai = require('chai');
+var expect = chai.expect;
+var assert = chai.assert;
+var recordedLogs =
+ { log: [],
+   debug: [],
+   info: [],
+   warn: [],
+   error: []
+ };
+var logger =
+  { log: function(str) { recordedLogs.log.push(str); },
+    debug: function(str) { recordedLogs.debug.push(str); },
+    info: function(str) { recordedLogs.info.push(str); },
+    warn: function(str) {
+      recordedLogs.warn.push(str);
+    },
+    error: function(str) { recordedLogs.error.push(str); }
+  };
 
 describe('Parsing HAL', function() {
+
+  beforeEach(function() {
+    recordedLogs.log = [];
+    recordedLogs.debug = [];
+    recordedLogs.info = [];
+    recordedLogs.warn = [];
+    recordedLogs.error = [];
+    halfred.injectLogger(logger);
+  });
 
   afterEach(function() {
     halfred.disableValidation();
@@ -350,7 +375,10 @@ describe('Parsing HAL', function() {
   it('should report deprecation to log', function() {
     var unparsed = fixtures.deprecation.get();
     var resource = halfred.parse(unparsed);
-    // Duh, how to check what is logged?! Currently we log to console.log :-(
+    expect(recordedLogs.warn.length).to.equal(1);
+    expect(recordedLogs.warn[0]).to.equal('Link ' +
+      '$._embedded.one._embedded.two._links.foo is deprecated, see ' +
+      'http://api.io/deprecated/link/explanation');
   });
 
   it('should report primitive link objects correctly', function() {
