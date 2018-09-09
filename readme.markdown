@@ -102,10 +102,24 @@ In some situations, it might be desirable to validate the resource you want to p
 
 You can use `halfred.injectLogger(logger)` to inject any object that exposes the same API as `console` does, that is, it needs to provide the methods `log`, `warn`, etc. Actually, currently only `logger.warn` is used to print a deprecation warning as mandated by the Hal spec, [section 5.4](https://tools.ietf.org/html/draft-kelly-json-hal-08#section-5.4). If no logger is injected, the global `console` object will be used. If this object does not exist, a no-op logger will be used and deprecation warnings will not be logged.
 
+
+Contributing
+------------
+
+See [Contributing to Halfred](https://github.com/traverson/halfred/blob/master/CONTRIBUTING.md).
+
+
+Code of Conduct
+---------------
+
+See [Code of Conduct](https://github.com/traverson/halfred/blob/master/CODE_OF_CONDUCT.md).
+
+
 Release Notes
 -------------
 
 See [CHANGELOG](https://github.com/traverson/halfred/blob/master/CHANGELOG.md).
+
 
 License
 -------
