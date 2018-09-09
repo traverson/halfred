@@ -1,7 +1,7 @@
 {
   "name": "halfred",
   "main": "browser/dist/halfred.js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://github.com/traverson/halfred",
   "authors": [
     "Bastian Krol <bastian.krol@web.de>"
