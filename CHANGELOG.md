@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/traverson/halfred/compare/v1.1.0...v1.1.1) (2018-09-23)
+
+
+### Bug Fixes
+
+* **readme:** made a meaningless change to trigger a release ([1828b54](https://github.com/traverson/halfred/commit/1828b54))
+
 Release Notes
 -------------
 * 0.1.0 2013-11-21: Initial release
@@ -7,4 +14,3 @@ Release Notes
 * 0.4.0 2014-12-05: Check if link object is an actual object or a primitive
 * 1.0.0 2015-05-21: Export Resource object for extension (thanks to @joshuajabbour)
 * 1.1.0 2018-09-09: Add 'injectLogger' function
-
