@@ -10,6 +10,10 @@ node_js:
 
 sudo: false
 
+branches:
+  except:
+  - "/^v\\d+\\.\\d+\\.\\d+$/"
+
 # Allow greenkeeper to commit package-lock.json via greenkeeper-lockfile.
 # greenkeeper-lockfile-upload will run only on the first listed node_js version.
 # We still explicitly skip all greenkeeper-lockfile related steps on Node.js
