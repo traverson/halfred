@@ -18,9 +18,9 @@ sudo: false
 # step.
 before_install: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || npm install -g greenkeeper-lockfile'
 install: npm install
-after_install: npm install @semantic-release/changelog @semantic-release/git --no-save
 before_script: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || greenkeeper-lockfile-update'
 after_script: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || greenkeeper-lockfile-upload'
+before_deploy: npm install @semantic-release/changelog @semantic-release/git --no-save
 deploy:
   provider: script
   skip_cleanup: true
