@@ -20,11 +20,17 @@ before_install: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ 
 install: npm install
 before_script: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || greenkeeper-lockfile-update'
 after_script: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || greenkeeper-lockfile-upload'
-before_deploy: npm install @semantic-release/changelog @semantic-release/git --no-save
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: npx semantic-release
+
+jobs:
+  include:
+    - stage: release
+      node_js: 10
+      script: skip
+      before_deploy: npm install @semantic-release/changelog @semantic-release/git --no-save
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: npx semantic-release
 
 env:
   global:
