@@ -13,7 +13,7 @@
   "license": "MIT",
   "scripts": {
     "test": "grunt",
-    "build": "grunt",
+    "build": "grunt build",
     "prepack": "run-s build"
   },
   "config": {

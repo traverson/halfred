@@ -104,12 +104,24 @@ module.exports = function(grunt) {
   // load all grunt-tasks
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', [
-    'jshint',
-    'mochaTest',
+  grunt.registerTask('test', [
+      'jshint',
+      'mochaTest'
+  ]);
+
+  grunt.registerTask('build', [
     'clean',
     'browserify',
-    'uglify',
-    'mocha',
+    'uglify'
+  ]);
+
+  grunt.registerTask('test-browser', [
+    'mocha'
+  ]);
+
+  grunt.registerTask('default', [
+    'test',
+    'build',
+    'test-browser'
   ]);
 };
