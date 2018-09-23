@@ -16,10 +16,9 @@ sudo: false
 # versions 4-7 because the build for the first GK commit (that updates
 # package.json) will fail on those versions in the greenkeeper-lockfile-update
 # step.
-before_install:
-- '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || npm install -g greenkeeper-lockfile'
-- npm install --global @semantic-release/changelog @semantic-release/git
+before_install: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || npm install -g greenkeeper-lockfile'
 install: npm install
+after_install: npm install @semantic-release/changelog @semantic-release/git --no-save
 before_script: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || greenkeeper-lockfile-update'
 after_script: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || greenkeeper-lockfile-upload'
 deploy:
