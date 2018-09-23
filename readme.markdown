@@ -70,7 +70,7 @@ The `Resource` object also has the properties `_links` and `_embedded` but they 
 
 The `Resource` class is exported on the halfred object, and therefore can be extended by attaching new methods to the prototype:
 
-```javascript
+```js
     var halfred = require('halfred');
     halfred.Resource.prototype.followLink = function followLink(key, callback) {
       var link = this.link(key);
