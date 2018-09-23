@@ -1,34 +1,50 @@
 language: node_js
 node_js:
-- '10.6.0'
 - '4'
 - '5'
 - '6'
 - '7'
 - '8'
 - '9'
+- '10.6.0'
 
 sudo: false
 
+# The default (implicit) Travis stage "test" runs for all versions of Node.js
+# listed above. It runs "npm test" as its script command by default.
+# All other stages (greenkepper lockfile and deployment via semantic-release)
+# are only run for one specific Node.js version.
+
+# Do not build tags on Travis. Tags are added by semantic-release in a previous
+# build, so the additional build is redundant, since it would only run the same
+# verification that ran before adding the tag.
 branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
 
-# Allow greenkeeper to commit package-lock.json via greenkeeper-lockfile.
-# greenkeeper-lockfile-upload will run only on the first listed node_js version.
-# We still explicitly skip all greenkeeper-lockfile related steps on Node.js
-# versions 4-7 because the build for the first GK commit (that updates
-# package.json) will fail on those versions in the greenkeeper-lockfile-update
-# step.
-before_install: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || npm install -g greenkeeper-lockfile'
-install: npm install
-before_script: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || greenkeeper-lockfile-update'
-after_script: '[[ $(node -v) =~ ^v4.*$ ]] || [[ $(node -v) =~ ^v5.*$ ]] || [[ $(node -v) =~ ^v6.*$ ]] || [[ $(node -v) =~ ^v7.*$ ]] || greenkeeper-lockfile-upload'
+# Define order of stages and restrict semantic-release to only run on master:
+stages:
+  - test
+  - greenkeeper
+  - name: semantic-release
+    if: env(TRAVIS_PULL_REQUEST) = false AND branch = master
 
+# Define the custom build stages (greenkeeper lockfile update and semantic
+# release):
 jobs:
   include:
-    - stage: release
-      node_js: 10
+    - stage: greenkeeper
+      node_js: '10.6.0'
+      install: npm install
+      before_script: npm install --global greenkeeper-lockfile
+      script: greenkeeper-lockfile-update
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: greenkeeper-lockfile-upload
+
+    - stage: semantic-release
+      node_js: '10.6.0'
       script: skip
       before_deploy: npm install @semantic-release/changelog @semantic-release/git --no-save
       deploy:
