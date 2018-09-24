@@ -40,4 +40,3 @@ env:
   global:
   - FORCE_COLOR=1
   - NPM_CONFIG_COLOR=always
-  - secure: mZrVnTc5Jm8ykinjZb6cx3g0eQly002JN7pmWXuEO7M9T5NQzdIsJbl629NoCfy/b863i4mJJ9ZJYvB1wOaw/+dUp0IRor2KI3UJi8kSB9q4h2xVo3H/oIM0lVGftQmFFNJcojNPNHjhHVY9qBnF/20B/ydh+lQHQxChAA/WixU=
