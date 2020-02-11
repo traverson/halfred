@@ -1,4 +1,9 @@
-language: node_js
+version: ~> 1.0
+
+import:
+  - form8ion/.travis-ci:node.yml
+  - traverson/.travis-ci:authenticated-semantic-release-stage.yml
+
 node_js:
 - '10.6.0'
 - '4'
@@ -8,24 +13,3 @@ node_js:
 - '8'
 - '9'
 
-sudo: false
-
-branches:
-  except:
-  - "/^v\\d+\\.\\d+\\.\\d+$/"
-
-jobs:
-  include:
-    - stage: release
-      node_js: 10
-      script: skip
-      before_deploy: npm install semantic-release @traverson/semantic-release-config --no-save
-      deploy:
-        provider: script
-        skip_cleanup: true
-        script: npx semantic-release
-
-env:
-  global:
-  - FORCE_COLOR=1
-  - NPM_CONFIG_COLOR=always
