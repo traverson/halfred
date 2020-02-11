@@ -1,7 +1,7 @@
 Halfred
 =======
 
-[![Build Status](https://travis-ci.org/traverson/halfred.png?branch=master)](https://travis-ci.org/traverson/halfred)
+[![Build Status](https://img.shields.io/travis/com/traverson/helfred.svg?branch=master)](https://travis-ci.com/traverson/halfred)
 [![Dependency Status](https://david-dm.org/traverson/halfred.png)](https://david-dm.org/traverson/halfred)
 [![NPM](https://nodei.co/npm/halfred.png?downloads=true&stars=true)](https://nodei.co/npm/halfred/)
 [![Greenkeeper badge](https://badges.greenkeeper.io/traverson/halfred.svg)](https://greenkeeper.io/)
