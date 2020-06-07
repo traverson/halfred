@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/traverson/halfred/compare/v1.1.1...v2.0.0) (2020-06-07)
+
+
+### Continuous Integration
+
+* **node-versions:** updated tested node versions to match currently supported LTS versions ([1fcb3fb](https://github.com/traverson/halfred/commit/1fcb3fb12c915f6b420ec9eb090cc30634c80737))
+
+
+### BREAKING CHANGES
+
+* **node-versions:** dropped support for node versions that have reached EOL
+
 ## [1.1.1](https://github.com/traverson/halfred/compare/v1.1.0...v1.1.1) (2018-09-23)
 
 
