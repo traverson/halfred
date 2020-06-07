@@ -5,11 +5,7 @@ import:
   - traverson/.travis-ci:authenticated-semantic-release-stage.yml
 
 node_js:
-- '10.6.0'
-- '4'
-- '5'
-- '6'
-- '7'
-- '8'
-- '9'
+- '10'
+- 12
+- 14
 
